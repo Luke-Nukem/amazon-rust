@@ -4,6 +4,7 @@ ARG TOOLCHAIN=stable
 
 RUN yum -y update && \
     yum -y groupinstall "Development Tools" && \
+    yum -y install sudo && \
     useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
 
 # Allow sudo without a password.
