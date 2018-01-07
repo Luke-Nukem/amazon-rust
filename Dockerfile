@@ -7,6 +7,9 @@ RUN yum -y update && \
     yum -y install sudo && \
     useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
 
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash && \
+    nvm install 6.10.3
+
 # Allow sudo without a password.
 ADD sudoers /etc/sudoers.d/nopasswd
 
