@@ -7,7 +7,7 @@ RUN yum -y update && \
     yum -y install sudo && \
     useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
 
-RUN curl https://nodejs.org/download/release/v6.11.3/node-v6.11.3-linux-x64.tar.xz | tar --strip-components 1 -xjf -C /usr/
+RUN curl https://nodejs.org/download/release/v6.11.3/node-v6.11.3-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
 
 # Allow sudo without a password.
 ADD sudoers /etc/sudoers.d/nopasswd
