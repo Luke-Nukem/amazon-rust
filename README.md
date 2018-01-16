@@ -7,7 +7,7 @@ It is helpful for compiling Rust code for use in Amazon Lambda functions.
 ## Using this image
 To use this image to build a Rust project it is preferable to add an alias to your `.bashrc`
 
-```
+``` bash
 alias aws_rust_build='
 sudo docker run --rm -it \
 -v "$(pwd)":/home/rust/src \
@@ -20,7 +20,7 @@ lukejones/amazon-rust'
 
 And then run `source ~/.bashrc` to reload your env, now you can build a Rust project with;
 
-```
+``` bash
 aws_rust_build cargo build --release
 ```
 
@@ -30,7 +30,7 @@ or whichever cargo command you require. Compiled results will be located in `tar
 
 Create a bash script with the following content in the project directory;
 
-```
+``` bash
 #!/usr/bin/env bash
 # the command to be executed in docker must be in quotes
 CMD=$1
@@ -47,7 +47,7 @@ ekidd/rust-musl-builder $CMD
 
 Another way to run Rust programs in a Lambda function is by using a docker image built for compiling Rust to the musl target - there are many of these types of images around and the method is the same;
 
-```
+``` bash
 alias rust-musl-build='
 sudo docker run --rm -it \
 -v "$(pwd)":/home/rust/src \
