@@ -26,7 +26,7 @@ RUN curl https://sh.rustup.rs -sSf | \
 # Install clippy - can be used in CI to check a PR/MR is free of common issues
 RUN cargo +nightly install clippy
 # Install rustfmt - useful in CI for checking PR/MR is correctly formatted
-RUN cargo +nightly install rustfmt-nightly
+RUN cargo install rustfmt --force
 
 # Expect our source code to live in /home/rust/src.  We'll run the build as
 # user `rust`, which will be uid 1000, gid 1000 outside the container.
