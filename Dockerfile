@@ -1,6 +1,6 @@
 FROM amazonlinux:latest
 
-ARG TOOLCHAIN=stable
+ARG TOOLCHAIN=nightly
 
 # Install minimum dev environment for our purposes
 # rather than the old groupinstall "Development"
