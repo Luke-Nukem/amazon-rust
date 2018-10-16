@@ -2,10 +2,15 @@ FROM amazonlinux:latest
 
 ARG TOOLCHAIN=stable
 
-RUN yum -y update && \
-    yum -y groupinstall "Development Tools" && \
-    yum -y install sudo && \
-    useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
+# Update if required, and install minimum dev environment for our purposes
+# rather than the old groupinstall "Development"
+RUN \
+ yum -y update && \
+ yum -y install \
+ binutils shadow-utils sudo \
+ autoconf automake elfutils git gdb make cmake gcc gcc-c++ patch pkgconfig \
+ bzip2 tar unzip xz zip && \
+ useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
 
 RUN curl https://nodejs.org/download/release/v9.9.0/node-v9.9.0-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
 
