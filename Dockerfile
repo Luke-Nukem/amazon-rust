@@ -2,10 +2,9 @@ FROM amazonlinux:latest
 
 ARG TOOLCHAIN=stable
 
-# Update if required, and install minimum dev environment for our purposes
+# Install minimum dev environment for our purposes
 # rather than the old groupinstall "Development"
 RUN \
- yum -y update && \
  yum -y install \
  binutils shadow-utils sudo \
  autoconf automake elfutils git gdb make cmake gcc gcc-c++ patch pkgconfig \
