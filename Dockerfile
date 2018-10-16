@@ -11,7 +11,7 @@ RUN \
  bzip2 tar unzip xz zip && \
  useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
 
-RUN curl https://nodejs.org/download/release/v9.9.0/node-v9.9.0-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
+RUN curl https://nodejs.org/download/release/latest-v9.x/node-v9.11.2-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
 
 # Allow sudo without a password.
 ADD sudoers /etc/sudoers.d/nopasswd
