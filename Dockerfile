@@ -11,7 +11,8 @@ RUN \
  bzip2 tar unzip xz zip && \
  useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
 
-RUN curl https://nodejs.org/download/release/latest-v9.x/node-v9.11.2-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
+RUN \
+curl https://nodejs.org/download/release/latest-v9.x/node-v9.11.2-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
 
 # Allow sudo without a password.
 ADD sudoers /etc/sudoers.d/nopasswd
@@ -21,14 +22,21 @@ ADD sudoers /etc/sudoers.d/nopasswd
 USER rust
 RUN mkdir -p /home/rust/libs /home/rust/src
 
+RUN \
+ cd /home/rust && \
+ git clone https://github.com/juj/emsdk.git && \
+ cd emsdk && \
+ ./emsdk install latest && \
+ ./emsdk activate latest
+RUN echo 'source /home/rust/emsdk/emsdk_env.sh' >> /home/rust/.bashrc
+
 ENV PATH=/home/rust/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- -y --default-toolchain $TOOLCHAIN && \
     rustup toolchain install $TOOLCHAIN
-# Install clippy - can be used in CI to check a PR/MR is free of common issues
+RUN rustup target add wasm32-unknown-emscripten
 RUN rustup component add clippy-preview
-# Install rustfmt - useful in CI for checking PR/MR is correctly formatted
 RUN rustup component add rustfmt-preview
 
 # Expect our source code to live in /home/rust/src.  We'll run the build as
