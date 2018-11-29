@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM amazonlinux:2017.03
 
 ARG TOOLCHAIN=stable
 
