@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM lambci/lambda:build-nodejs8.10
 
 ARG TOOLCHAIN=stable
 
@@ -10,9 +10,6 @@ RUN \
  autoconf automake elfutils git gdb make cmake gcc gcc-c++ patch pkgconfig \
  bzip2 tar unzip xz zip && \
  useradd rust -u 1000 --user-group --create-home --shell /bin/bash --groups wheel
-
-RUN \
-curl https://nodejs.org/download/release/latest-v9.x/node-v9.11.2-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
 
 # Allow sudo without a password.
 ADD sudoers /etc/sudoers.d/nopasswd
