@@ -1,4 +1,4 @@
-FROM amazonlinux:2017.03
+FROM lambci/lambda:build-nodejs8.10
 
 ARG TOOLCHAIN=beta
 
