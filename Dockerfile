@@ -27,7 +27,7 @@ RUN \
  ./emsdk activate latest
 RUN echo 'source /home/rust/emsdk/emsdk_env.sh' >> /home/rust/.bashrc
 
-ENV PATH=/home/rust/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/var/lang/bin:/opt/bin:/home/rust/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- -y --default-toolchain $TOOLCHAIN && \
