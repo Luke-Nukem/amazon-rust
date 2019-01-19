@@ -1,4 +1,4 @@
-FROM amazonlinux:latest
+FROM lambci/lambda:build-nodejs8.10
 
 ARG TOOLCHAIN=stable
 
@@ -21,9 +21,6 @@ RUN USER=rust && \
     printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 ENTRYPOINT ["fixuid"]
 
-RUN \
-curl https://nodejs.org/download/release/latest-v9.x/node-v9.11.2-linux-x64.tar.xz | tar --strip-components 1 -Jx -C /usr/
-
 # Allow sudo without a password.
 ADD sudoers /etc/sudoers.d/nopasswd
 
@@ -32,7 +29,7 @@ ADD sudoers /etc/sudoers.d/nopasswd
 USER rust
 RUN mkdir -p /home/rust/libs /home/rust/src
 
-ENV PATH=/home/rust/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/var/lang/bin:/opt/bin:/home/rust/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- -y --default-toolchain $TOOLCHAIN && \
