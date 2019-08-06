@@ -1,5 +1,5 @@
 # amazon-rust
-A docker image for compiling Rust for use with AWS Lambdas
+A docker image for compiling Rust for use with AWS Lambdas which includes fixuid.
 
 This is an image created from the base Amazon ECS image with the Rust compiler preinstalled.
 It is helpful for compiling Rust code for use in Amazon Lambda functions.
@@ -11,12 +11,15 @@ To use this image to build a Rust project it is preferable to add an alias to yo
 alias aws_rust_build='
 sudo docker run --rm -it \
 -v "$(pwd)":/home/rust/src \
--v /home/luke/.cargo/git:/home/rust/.cargo/git \
--v /home/luke/.cargo/registry:/home/rust/.cargo/registry \
+-v ~/.cargo/git:/home/rust/.cargo/git \
+-v ~/.cargo/registry:/home/rust/.cargo/registry \
+-u 1000:1000 \
 lukejones/amazon-rust'
 ```
 
 **Note**: change `/home/luke/` to your home directory. The reason to mount the `.cargo` dirs is to stop cargo from needing to update from scratch every time the image is run.
+
+**Note**: the `-u 1000:1000` can be changed to match the user and group you are running under.
 
 And then run `source ~/.bashrc` to reload your env, now you can build a Rust project with;
 
@@ -38,8 +41,8 @@ CMD=$1
 # must be hard path
 sudo docker run --rm -it \
 -v "$(pwd)":/home/rust/src \
--v /home/luke/.cargo/git:/home/rust/.cargo/git \
--v /home/luke/.cargo/registry:/home/rust/.cargo/registry \
+-v ~/.cargo/git:/home/rust/.cargo/git \
+-v ~/.cargo/registry:/home/rust/.cargo/registry \
 ekidd/rust-musl-builder $CMD
 ```
 

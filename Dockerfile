@@ -1,9 +1,7 @@
-FROM lambci/lambda:build-nodejs8.10
+FROM lambci/lambda:build-nodejs10.x
 
 ARG TOOLCHAIN=stable
 
-# Install minimum dev environment for our purposes
-# rather than the old groupinstall "Development"
 RUN \
  yum -y install \
  binutils shadow-utils sudo \
@@ -21,9 +19,6 @@ RUN USER=rust && \
     printf "user: $USER\ngroup: $GROUP\n" > /etc/fixuid/config.yml
 ENTRYPOINT ["fixuid"]
 
-# Allow sudo without a password.
-ADD sudoers /etc/sudoers.d/nopasswd
-
 # Run all further code as user `rust`, and create our working directories
 # as the appropriate user.
 USER rust
@@ -34,9 +29,7 @@ ENV PATH=/var/lang/bin:/opt/bin:/home/rust/.cargo/bin:/usr/local/sbin:/usr/local
 RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- -y --default-toolchain $TOOLCHAIN && \
     rustup toolchain install $TOOLCHAIN
-RUN rustup component add clippy-preview
-RUN rustup component add rustfmt-preview
+RUN rustup component add clippy
+RUN rustup component add rustfmt
 
-# Expect our source code to live in /home/rust/src.  We'll run the build as
-# user `rust`, which will be uid 1000, gid 1000 outside the container.
 WORKDIR /home/rust/src
